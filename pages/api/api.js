@@ -38,7 +38,7 @@ const fetchJson = async (url, options, onCancel) => {
     } catch {
 
     }
-    
+
   } catch (error) {
     if (error.name !== "AbortError") {
       console.error(error.stack);
@@ -48,40 +48,58 @@ const fetchJson = async (url, options, onCancel) => {
   }
 }
 
-export const readUser = async (user, signal) => {
-    const url = `${API_BASE_URL}/users`
-    const options = {
-        method: "PUT",
-        headers,
-        body: JSON.stringify({ data: { 
-            username: user.username,
-            password: user.password,
-            session: user.session
-        } }),
-        signal,
-      };
+export const readUser = async (user) => {
+  const url = `${API_BASE_URL}/users`
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({
+      data: {
+        username: user.username,
+        password: user.password,
+        session: user.session
+      }
+    })
+  };
 
-      return await fetchJson(url, options, []);
+  return await fetchJson(url, options, []);
 }
 
-export const createUser = async (user, signal) => {
-    const url = `${API_BASE_URL}/users`;
-    const options = {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ data: { 
-            username: user.username,
-            password: user.password,
-            session: user.session
-        } }),
-        signal,
-      };
-      
+export const createUser = async (user) => {
+  const url = `${API_BASE_URL}/users`;
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      data: {
+        username: user.username,
+        password: user.password,
+        session: user.session
+      }
+    }),
+  };
 
-      return await fetchJson(url, options, []);
+
+  return await fetchJson(url, options, []);
 }
 
-export const getGamer = async (token, signal) => {
-    const url = `${API_BASE_URL}/users?token=${token}`;
-    return await fetchJson(url, { headers, signal }, []);
+export const getGamer = async (token) => {
+  const url = `${API_BASE_URL}/users?token=${token}`;
+  return await fetchJson(url, { headers }, []);
+}
+
+export const getImage = async (id) => {
+  const url = `${API_BASE_URL}/images/${id}`;
+  const newHeaders = new Headers({ "Content-Type": "image/png", "Content-Disposition": "inline" });
+  return await fetch(url, { newHeaders }, []);
+}
+
+export const getGames = async () => {
+  const url = `${API_BASE_URL}/games`;
+  return await fetchJson(url, { headers }, []);
+}
+
+export const getGame = async (id) => {
+  const url = `${API_BASE_URL}/games/${id}`;
+  return await fetchJson(url, { headers }, []);
 }

@@ -1,5 +1,19 @@
-export default function games() {
+import Games from "../components/Games";
+import { getGames, getImage } from "./api/api";
+
+export default function games({ games }) {
     return (
-        <h1>Games go here</h1>
+        <>
+            <Games games={games} />
+        </>
     )
 }
+
+export async function getStaticProps() {
+    const games = await getGames();
+    return {
+      props: {
+        games,
+      },
+    }
+  }

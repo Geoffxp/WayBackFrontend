@@ -35,11 +35,13 @@
     justify-content: center;
     align-items: center;
     list-style: none;
-    margin-left: -90px;
+    margin-top: 20px;
+    margin-left: -20px;
 }
 .nav li {
     padding-left: 20px;
     padding-right: 20px;
+    height: 60px;
     font-family: "Oswald";
     font-size: 25pt;
     text-decoration: underline;
@@ -58,6 +60,10 @@
     margin-top: -8px;
     line-height: 2px;
 }
+.textStack {
+    margin-top: -5px;
+    line-height: 2px;
+}
 .logoStack2 {
     margin-left: 9px;
     letter-spacing: 8px;
@@ -68,3 +74,16 @@
     color:rgb(197, 197, 197)
 }
 
+@media (max-width: 1000px) {
+    .logoStack {
+        display: none;
+    }
+    .nav li {
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 20pt;
+    }
+    .nav ul {
+        margin-left: 90px;
+    }
+}

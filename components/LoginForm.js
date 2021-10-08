@@ -1,17 +1,12 @@
 import { useState } from "react"
-import { readUser } from "../pages/api/utils/api"
+import { readUser, createUser } from "../pages/api/api"
 import styles from "../styles/LoginForm.module.css"
-import { createUser } from "../pages/api/utils/api"
 import { useCookies } from "react-cookie"
 import { useRouter } from "next/router"
 
 export default function LoginForm({ signUp }) {
     const router = useRouter();
     const [cookies, setCookie] = useCookies(["token"])
-    function token() {
-        return new Date().getTime().toString(36);
-    }
-    
 
     const init = {
         username: "",
@@ -21,7 +16,6 @@ export default function LoginForm({ signUp }) {
     const [credentials, setCredentials] = useState({...init})
 
     const changeHandler = ({ target }) => {
-        if (!cookies.token) setCookie("token", token(), { path: "/", maxAge: 604800 })
         setCredentials({
             ...credentials,
             [target.name]: target.value
@@ -35,12 +29,18 @@ export default function LoginForm({ signUp }) {
             session: cookies.token
         }
         if (signUp) {
-            createUser(user, new AbortController().abort()).then((user) => {
-                if (user.username) router.push("/")  
+            createUser(user, new AbortController().abort()).then((session) => {
+                if (session) {
+                    setCookie("token", session, { path: "/", maxAge: 86400 })
+                    router.push("/")  
+                }
             })
         } else {
-            readUser(user, new AbortController().abort()).then((user) => {
-                if (user.username) router.push("/")  
+            readUser(user, new AbortController().abort()).then((session) => {
+                if (session) {
+                    setCookie("token", session, { path: "/", maxAge: 86400 })
+                    router.push("/")  
+                }
             })
         }
         
